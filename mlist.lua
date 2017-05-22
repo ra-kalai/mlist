@@ -7,14 +7,14 @@ mlist_mt.__index = function (t, k)
 		return v
 	end
 
-	return t:value(k)[2]
+	return t:value(k)
 end
 
 mlist_mt.value = function (t, k)
 	local v
 	v = t.m[k]
 	if v then
-		return v
+		return v[2]
 	end
 end
 
@@ -27,12 +27,12 @@ mlist_mt.prepend = function (t, v)
 end
 
 mlist_mt.prepend_kv = function (t, k, v)
-  local pair = {k, v}
+	local pair = {k, v}
 	t.start = t.start - 1
 	t.l[t.start] = pair
-  if k then
-	  t.m[k] = pair
-  end
+	if k then
+		t.m[k] = pair
+	end
 end
 
 mlist_mt.push = function (t, v)
@@ -58,12 +58,12 @@ mlist_mt.tail_t = function (t, count)
 	count = count or 1
 	local ret = {}
 	local i
-	local start = t.last - count 
+	local start = t.last - count
 
 	if start < t.start then
-		start = t.start 
+		start = t.start
 	end
-	local last = t.last 
+	local last = t.last
 	local kv
 
 	i = start
@@ -85,43 +85,43 @@ mlist_mt.list = function (t)
 	local i
 	local start = t.start
 	local last = t.last -1
-  local kv
+	local kv
 
-  for i = start, last do
+	for i = start, last do
 		kv = t.l[i]
-    ret[#ret+1] = kv[2]
-  end
+		ret[#ret+1] = kv[2]
+	end
 
-  return ret
+	return ret
 end
 
 mlist_mt.map = function (t)
-  local ret = {}
-  for k, v in pairs(t.m) do
-    ret[k] = v[2]
-  end
-  return ret
+	local ret = {}
+	for k, v in pairs(t.m) do
+		ret[k] = v[2]
+	end
+	return ret
 end
 
 mlist_mt.pop_tail_t = function (t, count)
 	count = count or 1
 	local ret = {}
 	local i
-	local start = t.last - count 
+	local start = t.last - count
 
 	if start < t.start then
-		start = t.start 
+		start = t.start
 	end
-	local last = t.last 
+	local last = t.last
 	local kv
 
 	i = start
 	repeat
 		kv = t.l[i]
 		ret[#ret+1] = kv[2]
-    if kv[1] then
-		  t.m[kv[1]] = nil 
-    end
+		if kv[1] then
+			t.m[kv[1]] = nil
+		end
 		t.l[i] = nil
 		i = i+1
 	until i == last
@@ -142,16 +142,16 @@ mlist_mt.pop_front_t = function (t, count)
 	local last = t.start + count - 1
 
 	if last > t.last-1 then
-		last = t.last-1 
+		last = t.last-1
 	end
 
 	local kv
 	for i = t.start, last, 1 do
 		kv = t.l[i]
 		ret[#ret+1] = kv[2]
-    if kv[1] then
-		  t.m[kv[1]] = nil 
-    end
+		if kv[1] then
+			t.m[kv[1]] = nil
+		end
 		t.l[i] = nil
 	end
 
@@ -172,7 +172,7 @@ mlist_mt.front_t = function (t, count)
 
 
 	if last > t.last-1 then
-		last = t.last-1 
+		last = t.last-1
 	end
 	local kv
 
@@ -209,7 +209,7 @@ end
 mlist_mt.each = function (t, fun)
 	local i
 	local kv
-	local r 
+	local r
 
   local last = t.last - 1
 	local vindex = 1
